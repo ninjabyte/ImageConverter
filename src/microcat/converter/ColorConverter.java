@@ -45,10 +45,16 @@ public class ColorConverter
 			
 			int qe = ColorUtil.sub(oldpixel, newpixel);
 			
-			addPix(src, x+1, y  , ColorUtil.mul(qe, 7/16f));
-			addPix(src, x-1, y+1, ColorUtil.mul(qe, 3/16f));
-			addPix(src, x  , y+1, ColorUtil.mul(qe, 5/16f));
-			addPix(src, x+1, y+1, ColorUtil.mul(qe, 1/16f));
+			addPix(src, x+1, y  , ColorUtil.mul(qe, 5/32f));
+			addPix(src, x+1, y  , ColorUtil.mul(qe, 3/32f));
+			addPix(src, x-2, y+1, ColorUtil.mul(qe, 2/32f));
+			addPix(src, x-1, y+1, ColorUtil.mul(qe, 4/32f));
+			addPix(src, x  , y+1, ColorUtil.mul(qe, 5/32f));
+			addPix(src, x+1, y+1, ColorUtil.mul(qe, 4/32f));
+			addPix(src, x+2, y+1, ColorUtil.mul(qe, 2/32f));
+			addPix(src, x-1, y+2, ColorUtil.mul(qe, 2/32f));
+			addPix(src, x  , y+2, ColorUtil.mul(qe, 3/32f));
+			addPix(src, x+1, y+2, ColorUtil.mul(qe, 2/32f));
 		}
 		
 		long endTime = System.nanoTime();
