@@ -19,7 +19,7 @@ public class ColorConverter
 	
 	public ColorConverter(String ifile) throws IOException
 	{
-		BufferedImage palImg = ImageIO.read(ColorConverter.class.getResource("/assets/palette.png"));
+		BufferedImage palImg = ImageIO.read(ColorConverter.class.getResource("/assets/palette2.png"));
 		BufferedImage srcImg = ImageIO.read(new File(ifile));
 		
 		width = srcImg.getWidth();
@@ -49,12 +49,6 @@ public class ColorConverter
 			addPix(src, x-1, y+1, ColorUtil.mul(qe, 3/16f));
 			addPix(src, x  , y+1, ColorUtil.mul(qe, 5/16f));
 			addPix(src, x+1, y+1, ColorUtil.mul(qe, 1/16f));
-	/*		addPix(src, x  , y+1, ColorUtil.mul(qe, 5/32f));
-			addPix(src, x+1, y+1, ColorUtil.mul(qe, 4/32f));
-			addPix(src, x+2, y+1, ColorUtil.mul(qe, 2/32f));
-			addPix(src, x-1, y+2, ColorUtil.mul(qe, 2/32f));
-			addPix(src, x  , y+2, ColorUtil.mul(qe, 3/32f));
-			addPix(src, x+1, y+2, ColorUtil.mul(qe, 2/32f));*/
 		}
 		
 		long endTime = System.nanoTime();
@@ -126,7 +120,7 @@ public class ColorConverter
 			System.out.println("Error: argument expected.");
 		try
 		{
-			new ColorConverter("spectrum.png").genImage();
+			new ColorConverter("earth.jpg").genImage();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
