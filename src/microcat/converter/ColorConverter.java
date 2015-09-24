@@ -35,7 +35,21 @@ public class ColorConverter
 		long startTime = System.nanoTime();
 		
 		for (int i=0; i<src.length; i++)
-			dst[i] = getClosestColor(src[i]);
+		{
+			int x = i % width;
+			int y = i / width;
+			int oldpixel = src[i];
+			int newpixel = getClosestColor(oldpixel);
+			
+			dst[i] = newpixel;
+			
+			int qe = ColorUtil.sub(oldpixel, newpixel);
+			
+			addPix(src, x+1, y  , ColorUtil.mul(qe, 7/16f));
+			addPix(src, x-1, y+1, ColorUtil.mul(qe, 3/16f));
+			addPix(src, x  , y+1, ColorUtil.mul(qe, 5/16f));
+			addPix(src, x+1, y+1, ColorUtil.mul(qe, 1/16f));
+		}
 		
 		long endTime = System.nanoTime();
 		long cTime = (endTime - startTime) / 1000000;
@@ -52,6 +66,14 @@ public class ColorConverter
 		frame.getContentPane().add(new JLabel(new ImageIcon(img)));
 		frame.pack();
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	private void addPix(int[] img, int x, int y, int c)
+	{
+		if (x >= width || y >= height)
+			return;
+		img[y * width + x] = ColorUtil.add(img[y * width + x], c);
 	}
 	
 	private int getClosestColor(int color)
@@ -96,7 +118,7 @@ public class ColorConverter
 	{
 		try
 		{
-			new ColorConverter("spectrum.png","").genImage();
+			new ColorConverter("earth.jpg","").genImage();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
