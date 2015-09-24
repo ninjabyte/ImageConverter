@@ -17,7 +17,7 @@ public class ColorConverter
 	int[] pal, src, dst;
 	int width, height;
 	
-	public ColorConverter(String ifile, String ofile) throws IOException
+	public ColorConverter(String ifile) throws IOException
 	{
 		BufferedImage palImg = ImageIO.read(ColorConverter.class.getResource("/assets/palette.png"));
 		BufferedImage srcImg = ImageIO.read(new File(ifile));
@@ -122,9 +122,11 @@ public class ColorConverter
 	
 	public static void main(String[] args)
 	{
+		if (args.length < 1)
+			System.out.println("Error: argument expected.");
 		try
 		{
-			new ColorConverter("earth.jpg","").genImage();
+			new ColorConverter(args[0]).genImage();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
