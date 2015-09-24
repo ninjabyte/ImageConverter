@@ -45,16 +45,16 @@ public class ColorConverter
 			
 			int qe = ColorUtil.sub(oldpixel, newpixel);
 			
-			addPix(src, x+1, y  , ColorUtil.mul(qe, 5/32f));
-			addPix(src, x+1, y  , ColorUtil.mul(qe, 3/32f));
-			addPix(src, x-2, y+1, ColorUtil.mul(qe, 2/32f));
-			addPix(src, x-1, y+1, ColorUtil.mul(qe, 4/32f));
-			addPix(src, x  , y+1, ColorUtil.mul(qe, 5/32f));
+			addPix(src, x+1, y  , ColorUtil.mul(qe, 7/16f));
+			addPix(src, x-1, y+1, ColorUtil.mul(qe, 3/16f));
+			addPix(src, x  , y+1, ColorUtil.mul(qe, 5/16f));
+			addPix(src, x+1, y+1, ColorUtil.mul(qe, 1/16f));
+	/*		addPix(src, x  , y+1, ColorUtil.mul(qe, 5/32f));
 			addPix(src, x+1, y+1, ColorUtil.mul(qe, 4/32f));
 			addPix(src, x+2, y+1, ColorUtil.mul(qe, 2/32f));
 			addPix(src, x-1, y+2, ColorUtil.mul(qe, 2/32f));
 			addPix(src, x  , y+2, ColorUtil.mul(qe, 3/32f));
-			addPix(src, x+1, y+2, ColorUtil.mul(qe, 2/32f));
+			addPix(src, x+1, y+2, ColorUtil.mul(qe, 2/32f));*/
 		}
 		
 		long endTime = System.nanoTime();
@@ -106,7 +106,7 @@ public class ColorConverter
 			for (int i=0; i<data.length; i++)
 				data[i] = ColorUtil.asColor(pixels[i*4+3] & 0xFF, pixels[i*4+2] & 0xFF, pixels[i*4+1] & 0xFF, 0);
 		else
-			for (int i=0; i<data.length; i++)
+			for (int i=0; i<pixels.length/3; i++)
 				data[i] = ColorUtil.asColor(pixels[i*3+2] & 0xFF, pixels[i*3+1] & 0xFF, pixels[i*3] & 0xFF, 0);
 		
 		return data;
@@ -126,7 +126,7 @@ public class ColorConverter
 			System.out.println("Error: argument expected.");
 		try
 		{
-			new ColorConverter(args[0]).genImage();
+			new ColorConverter("spectrum.png").genImage();
 		} catch (IOException e)
 		{
 			e.printStackTrace();
