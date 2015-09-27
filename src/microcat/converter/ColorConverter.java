@@ -1,6 +1,5 @@
 package microcat.converter;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
