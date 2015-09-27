@@ -1,5 +1,6 @@
 package microcat.converter;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -19,7 +20,7 @@ public class ColorConverter
 	
 	public ColorConverter(String ifile) throws IOException
 	{
-		BufferedImage palImg = ImageIO.read(ColorConverter.class.getResource("/assets/palette2.png"));
+		BufferedImage palImg = ImageIO.read(ColorConverter.class.getResource("/assets/palette.png"));
 		BufferedImage srcImg = ImageIO.read(new File(ifile));
 		
 		width = srcImg.getWidth();
@@ -43,12 +44,17 @@ public class ColorConverter
 			
 			dst[i] = newpixel;
 			
-			int qe = ColorUtil.sub(oldpixel, newpixel);
+			diffuseError(src, x+1, y  , oldpixel, newpixel, 7/16f);
+			diffuseError(src, x-1, y+1, oldpixel, newpixel, 3/16f);
+			diffuseError(src, x  , y+1, oldpixel, newpixel, 5/16f);
+			diffuseError(src, x+1, y+1, oldpixel, newpixel, 1/16f);
 			
-			addPix(src, x+1, y  , ColorUtil.mul(qe, 7/16f));
-			addPix(src, x-1, y+1, ColorUtil.mul(qe, 3/16f));
-			addPix(src, x  , y+1, ColorUtil.mul(qe, 5/16f));
-			addPix(src, x+1, y+1, ColorUtil.mul(qe, 1/16f));
+		//	int qe = ColorUtil.sub(oldpixel, newpixel);
+			
+		//	addPix(src, x+1, y  , ColorUtil.mul(qe, 7/16f));
+		//	addPix(src, x-1, y+1, ColorUtil.mul(qe, 3/16f));
+		//	addPix(src, x  , y+1, ColorUtil.mul(qe, 5/16f));
+		//	addPix(src, x+1, y+1, ColorUtil.mul(qe, 1/16f));
 		}
 		
 		long endTime = System.nanoTime();
@@ -69,11 +75,37 @@ public class ColorConverter
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	private void addPix(int[] img, int x, int y, int c)
+	private void diffuseError(int[] img, int x, int y, int oldPixel, int newPixel, float m)
+	{
+		// calculate difference between palette color and original color
+		int dr = ColorUtil.getRed(oldPixel) - ColorUtil.getRed(newPixel);
+		int dg = ColorUtil.getGreen(oldPixel) - ColorUtil.getGreen(newPixel);
+		int db = ColorUtil.getBlue(oldPixel) - ColorUtil.getBlue(newPixel);
+		
+		int pix = getPix(img, x, y);
+		
+		// diffuse difference to pixel
+		
+		int r = ColorUtil.getRed(pix) + (int)(dr*m);
+		int g = ColorUtil.getGreen(pix) + (int)(dg*m);
+		int b = ColorUtil.getBlue(pix) + (int)(db*m);
+		
+		pix = ColorUtil.asColor(r, g, b, ColorUtil.getAlpha(pix));
+		setPix(img, x, y, pix);
+	}
+	
+	private int getPix(int[] img, int x, int y)
+	{
+		if (x >= width || y >= height)
+			return 0;
+		return img[y * width + x];
+	}
+	
+	private void setPix(int[] img, int x, int y, int c)
 	{
 		if (x >= width || y >= height)
 			return;
-		img[y * width + x] = ColorUtil.add(img[y * width + x], c);
+		img[y * width + x] = c;
 	}
 	
 	private int getClosestColor(int color)

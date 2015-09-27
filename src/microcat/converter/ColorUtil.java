@@ -52,31 +52,6 @@ public class ColorUtil
 		return c | (clampColor(a) << BIT_BLUE);
 	}
 	
-	public static int add(int c0, int c1)
-	{
-		return asColor(getRed(c0) + dec(getRed(c1)), getGreen(c0) + dec(getGreen(c1)), getBlue(c0) + dec(getBlue(c1)), getAlpha(c0) + dec(getAlpha(c1)));
-	}
-	
-	public static int sub(int c0, int c1)
-	{
-		return asColor(enc(getRed(c0) - getRed(c1)), enc(getGreen(c0) - getGreen(c1)), enc(getBlue(c0) - getBlue(c1)), enc(getAlpha(c0) - getAlpha(c1)));
-	}
-	
-	public static int mul(int c0, float m)
-	{
-		return asColor(enc((int)(dec(getRed(c0))*m)), enc((int)(dec(getGreen(c0))*m)), enc((int)(dec(getBlue(c0))*m)), enc((int)(dec(getAlpha(c0))*m)));
-	}
-	
-	private static int enc(int c)
-	{
-		return clampColor(c/2 + 128);
-	}
-	
-	private static int dec(int c)
-	{
-		return c*2 - 256;
-	}
-	
 	public static int getDifferenceSq(int c0, int c1)
 	{
 		int r = getRed(c0) - getRed(c1);
